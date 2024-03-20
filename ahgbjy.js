@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         安徽干部教育在线刷课脚本4.0
+// @name         安徽干部教育在线刷课脚本1.0
 // @namespace    http://tampermonkey.net/
 // @version      2024-02-23
 // @description  自动浏览和选择课程章节，自动播放视频，通过页面显示的课程时间，来延迟执行完成函数，目前视频没问题，PPT有两种模式，还需要调整
