@@ -17,24 +17,24 @@
         unsafeWindow.alert = function() {
             console.log('警告窗口被屏蔽了！原始消息: ' );
         };
-    
+
         // 重写 window.confirm 方法以阻止确认对话框显示
         unsafeWindow.confirm = function() {
             console.log('确认对话框被屏蔽了！原始消息: ' );
             // 默认情况下，confirm返回false
             return false;
         };
-    
+
         // 重写 window.prompt 方法以阻止提示输入框显示
         unsafeWindow.prompt = function() {
             console.log('提示输入框被屏蔽了！原始消息: ' );
             // 默认情况下，prompt返回空字符串
             return '';
         };
-    
+
     var currentURL = window.location.href;
-    
-    
+
+
     // 选课页面
     function xuanke() {
         //判断当前页课程是否全部学完，如果学完点击下页，否则进入未学习的课程
@@ -53,8 +53,8 @@
             }
         }
     }
-    
-    
+
+
     // 课程详情页
     function xiangqing() {
         var j = GM_getValue('jj');
@@ -69,7 +69,7 @@
         xx[0].click();
         }
     }
-    
+
     // 视频课程
     function StarAndExit() {
             //视频课程
@@ -78,6 +78,7 @@
             var TimeN = parseInt(a[0].innerHTML.substring(1,3),10)+1;
         var b= document.getElementById("coursenametitle");
         var c = TimeN;
+        b.innerHTML="  脚本已执行，将在"+c+"分钟后自动点击完成";
        function updateTime(){
             b.innerHTML="  脚本将在"+c+"分钟后自动点击完成";
            c=c-1;
@@ -90,37 +91,46 @@
                 wcbtn[1].click();
         }, 1000*TimeN*60);
     }
-    
-    
+
+
     //ppt课程
     function playscorm(){
-           var fr = document.mainFrame;
-          var s = fr.document.getElementsByClassName("continueStudyButton");
-           if (s.length>0) {
-               s[0].click();
-           } else {
-               console.error("Element with class 'continueStudyButton' not found.");
-           }
-       function dianjikaishi(){
-      // 在这里执行获取iframe中元素的操作
-           var fr = document.mainFrame;
-           //获取播放状态
-           var PlayStat = fr.document.getElementById("toPlay");
-           if(PlayStat.getAttribute("style").includes('block')){
-               PlayStat.click();
-           }
-           if (fr.document.getElementsByClassName("totalTimeLabel")[0].innerHTML==fr.document.getElementsByClassName("currentTimeLabel")[0].innerHTML) {
-                // 点击完成播放，上传记录
-                var wcbtn = document.getElementsByClassName("btn btn-default")
-            //wcbtn[1].removeEventListener('click', function() {});
-                wcbtn[1].click();
-            }
-           };
-        setInterval(dianjikaishi, 10000);
+        var fr = document.mainFrame;
+        fr. document.getElementsByClassName("user_choise")[0].click()
+        var a= fr.document.getElementsByClassName("continueStudyButton");
+        if (a.length>0) {
+            a[0].click();
+            console.log("已点击开始播放");
+        } else {
+            console.error("Element with class 'continueStudyButton' not found.");
+        }
+        //重新获取fr
+         var fr1 = document.mainFrame;
+          var s = fr1.document.getElementsByClassName("totalTimeLabel");
+        if(s){
+        console.log(s[0].innerHTML);
+        }else
+        {
+            console.log("没找到开始时间");
+        }
+        var TimeN = parseInt(s[0].innerHTML.substring(3,5),10)+1;
+        //屏幕显示倒计时
+          var b= document.getElementsByClassName(" btn btn-default");
+        var c = TimeN;
+        b[1].innerHTML="脚本已执行，将在"+c+"分钟后自动点击完成播放！";
+       function updateTime(){
+           b[1].innerHTML="  脚本将在"+c+"分钟后自动点击完成";
+           c=c-1;
     }
-    
-    
-    
+        setInterval(updateTime, 1000*60);
+        setTimeout(function() {
+                var wcbtn = document.getElementsByClassName("btn btn-default")
+                wcbtn[1].click();
+        }, 1000*TimeN*60);
+    }
+
+
+
     function StartFunc() {
         // 根据当前页面执行相应操作
         if (currentURL.includes('https://www.ahgbjy.gov.cn/pc/course/courselist.do')) {
@@ -133,11 +143,10 @@
          playscorm();
         }
     }
-    
-    
+
+
     window.onload = function () {
         // 调用需要在页面加载完成后执行的函数
         StartFunc();
     }
     })();
-    
