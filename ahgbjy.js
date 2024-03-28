@@ -96,7 +96,6 @@
     //ppt课程
     function playscorm(){
         var fr = document.mainFrame;
-        fr. document.getElementsByClassName("user_choise")[0].click()
         var a= fr.document.getElementsByClassName("continueStudyButton");
         if (a.length>0) {
             a[0].click();
